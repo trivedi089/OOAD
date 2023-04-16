@@ -19,6 +19,12 @@ public class Guitar {
         this.topWood = topWood;
     }
 
+    @Override
+    public String toString(){
+        return "Guitar serial Number : "+this.getSerialNumber()+"price : "+this.getPrice()+"bulder : "+this.getBuilder()
+                +"model : "+this.getModel()+"type : "+this.type+"backWood : "+this.getBackWood()+"topWood : "+this.getTopWood();
+    }
+
     public String getSerialNumber() {
         return serialNumber;
     }
