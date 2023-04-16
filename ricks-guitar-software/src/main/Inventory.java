@@ -4,63 +4,47 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Inventory {
     LinkedList setOfGuitars;
 
-    public Inventory(){
+    //In Java, a LinkedList is a generic class that can hold objects of any type
+    public Inventory() {
         setOfGuitars = new LinkedList();
     }
-    public void addGuitars(String serialName,double price,String builder, String model, String type, String backWood, String topWood){
-        Guitar newGuitar = new Guitar(serialName,price,builder,model,type,backWood,topWood);
+
+    public GuitarSpec newGuitarSpec(Builder builder, String model, Type type, Wood backWood, Wood topWood) {
+        GuitarSpec newGuitarSpec = new GuitarSpec(builder, model, type, backWood, topWood);
+        return newGuitarSpec;
+    }
+
+    public void addNewGuitar(String serialName, Double price, GuitarSpec guitarSpec) {
+        Guitar newGuitar = new Guitar(serialName, price, guitarSpec);
         setOfGuitars.add(newGuitar);
     }
 
+    public List search(GuitarSpec searchGuitar) {
+        List matchingGuitars = new LinkedList();
 
-    //iterate.next() returns the current element in the iteration and moves the iterator pointer to the next element.
-    //hasNext() checks if the current element is present, it will return true then will iterate to next element
+        for (Iterator it = setOfGuitars.iterator(); it.hasNext(); ) {
 
-
-    //return Guitar if searching is getting done by serial number and its matching
-    public Guitar getGuitarOnSerialNumber(String serialNumberGuitar){
-        for(Iterator it = setOfGuitars.iterator();it.hasNext();){
             Guitar guitar = (Guitar) it.next();
-            if(guitar.getSerialNumber()==serialNumberGuitar)
-                return guitar;
+            GuitarSpec guitarSpec = guitar.getGuitarSpec();
+
+            if (!guitarSpec.getBuilder().equals(searchGuitar.getBuilder()))
+                continue;
+            if (!guitarSpec.getModel().equals(searchGuitar.getModel()))
+                continue;
+            if (!guitarSpec.getType().equals(searchGuitar.getType()))
+                continue;
+            if (!guitarSpec.getTopWood().equals(searchGuitar.getTopWood()))
+                continue;
+            if (!guitarSpec.getBackWood().equals(searchGuitar.getBackWood()))
+                continue;
+
+            matchingGuitars.add(guitar);
         }
-        return null;
-    }
-
-    //searching guitar
-    public Guitar search(Guitar searchGuitar){
-        for(Iterator it = setOfGuitars.iterator(); it.hasNext();){
-            Guitar guitar = (Guitar)it.next();  //typecast is necessary because it returns an object of type Object, which is the most general type of object in Java. You then need to cast this object to the specific type of object you're working with, in this case Guitar.
-
-            //Guitar's builder
-            String builder = guitar.getBuilder();
-            if((builder!=null)&&(!builder.equals(""))&&(!builder.equals(guitar.getBuilder())))
-                continue;
-
-            //Guitar's model
-            String model = guitar.getModel();
-            if((model!=null)&&(!model.equals(""))&&(!model.equals(guitar.getModel())))
-                continue;
-
-            //Guitar's type
-            String type = guitar.getType();
-            if((type!=null)&&(!type.equals(""))&&(!type.equals(guitar.getType())))
-                continue;
-
-            //Guitar's backWood
-            String backWood = guitar.getBackWood();
-            if((backWood!=null)&&(!backWood.equals(""))&&(!backWood.equals(guitar.getBackWood())))
-                continue;
-
-            //Guitar's topWood
-            String topWood = guitar.getTopWood();
-            if((topWood!=null)&&(!topWood.equals(""))&&(!topWood.equals(guitar.getTopWood())))
-                continue;
-        }
-        return null;
+        return matchingGuitars;
     }
 }
