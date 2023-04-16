@@ -63,4 +63,39 @@ public class Inventory {
         }
         return null;
     }
+
+    public LinkedList searchForListOfGuitars(Guitar searchGuitar){
+        LinkedList matchingGuitars = new LinkedList<>();
+
+        for(Iterator it = setOfGuitars.iterator(); it.hasNext();){
+            Guitar guitar=(Guitar) it.next();
+
+            String builder = guitar.getBuilder();
+            if((builder!=null)&&(!builder.equals(""))&&(!builder.toLowerCase().equals(guitar.getBuilder().toLowerCase())))
+                continue;
+
+            //Guitar's model
+            String model = guitar.getModel();
+            if((model!=null)&&(!model.equals(""))&&(!model.toLowerCase().equals(guitar.getModel().toLowerCase())))
+                continue;
+
+            //Guitar's type
+            String type = guitar.getType();
+            if((type!=null)&&(!type.equals(""))&&(!type.toLowerCase().equals(guitar.getType().toLowerCase())))
+                continue;
+
+            //Guitar's backWood
+            String backWood = guitar.getBackWood();
+            if((backWood!=null)&&(!backWood.equals(""))&&(!backWood.toLowerCase().equals(guitar.getBackWood().toLowerCase())))
+                continue;
+
+            //Guitar's topWood
+            String topWood = guitar.getTopWood();
+            if((topWood!=null)&&(!topWood.equals(""))&&(!topWood.toLowerCase().equals(guitar.getTopWood().toLowerCase())))
+                continue;
+
+            matchingGuitars.add(guitar);
+        }
+        return matchingGuitars;
+    }
 }
